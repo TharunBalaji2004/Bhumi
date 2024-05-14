@@ -4,19 +4,20 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { FaUser } from "react-icons/fa";
 import BlogCardImage from "../assets/blogcard_image.jpg";
 
 const Blogs = () => {
@@ -57,12 +58,50 @@ const BlogCard = () => {
         <CardHeader>
           <img src={BlogCardImage} className="rounded-lg" />
           <CardTitle className="py-2">Blog Title</CardTitle>
-          <CardDescription>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna dolor, convallis et auctor nec, condimentum finibus nisl. Curabitur at finibus purus, tristique hendrerit urna. Morbi egestas tempus augue, laoreet iaculis elit imperdiet ac. Nullam pharetra viverra massa, sed rhoncus ipsum tempus id. Vestibulum eget elit leo. Aliquam venenatis purus non risus auctor, a commodo odio tristique. Donec dapibus nec nulla in tincidunt. Vestibulum fermentum vestibulum dignissim.
+          <CardDescription className="text-justify">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna
+            dolor, convallis et auctor nec, condimentum finibus nisl. Curabitur
+            at finibus purus, tristique hendrerit urna. Morbi egestas tempus
+            augue, laoreet iaculis elit imperdiet ac. Nullam pharetra viverra
+            massa, sed rhoncus ipsum tempus id. Vestibulum eget elit leo.
+            Aliquam venenatis purus non risus auctor, a commodo odio tristique.
+            Donec dapibus nec nulla in tincidunt. Vestibulum fermentum
+            vestibulum dignissim.
           </CardDescription>
         </CardHeader>
-        <CardFooter className="flex justify-end">
-          <Button>Read More</Button>
+        <CardFooter className="flex justify-between">
+          <Button variant="outline">
+            <FaUser />
+            <p className="pl-2">Tharun Balaji</p>
+          </Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button>Read More</Button>
+            </SheetTrigger>
+            <SheetContent className="px-10 sm:max-w-[550px]">
+              <SheetHeader>
+                <img src={BlogCardImage} className="rounded-lg" />
+                <div className="flex items-center justify-between py-2">
+                  <SheetTitle>Blog Title</SheetTitle>
+                  <Button variant="outline">
+                    <FaUser />
+                    <p className="pl-2">Tharun Balaji</p>
+                  </Button>
+                </div>
+
+                <SheetDescription>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
+                  urna dolor, convallis et auctor nec, condimentum finibus nisl.
+                  Curabitur at finibus purus, tristique hendrerit urna. Morbi
+                  egestas tempus augue, laoreet iaculis elit imperdiet ac.
+                  Nullam pharetra viverra massa, sed rhoncus ipsum tempus id.
+                  Vestibulum eget elit leo. Aliquam venenatis purus non risus
+                  auctor, a commodo odio tristique. Donec dapibus nec nulla in
+                  tincidunt. Vestibulum fermentum vestibulum dignissim..
+                </SheetDescription>
+              </SheetHeader>
+            </SheetContent>
+          </Sheet>
         </CardFooter>
       </Card>
     </>
