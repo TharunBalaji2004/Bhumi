@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
 import Home from "./Pages/Home";
 import Error404 from "./Pages/Error404";
 import AboutUs from "./Pages/AboutUs";
