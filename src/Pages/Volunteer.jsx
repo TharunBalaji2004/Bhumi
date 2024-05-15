@@ -3,11 +3,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox"
+import VolunteerImage from "../assets/volunteer_image.png";
 
 const Volunteer = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <div className="flex flex-col pt-10">
+    <div className="grid grid-cols-2 items-center justify-center h-screen pt-10">
+      <div className="flex flex-col items-center">
         <h1 className="text-2xl font-bold text-center">Volunteer Registration</h1>
 
         <div className="flex flex-col max-w-md pt-10 gap-5">
@@ -43,6 +44,26 @@ const Volunteer = () => {
 
           <Button variant="default" className="max-w-sm">Submit</Button>
         </div>
+      </div>
+      <div className="flex flex-col items-center">
+        <img src={VolunteerImage} className="w-[500px] rounded-lg" />
+
+        <div className="flex gap-10 pt-10">
+          <div className="flex flex-col items-center">
+            <p className="text-4xl font-bold">2000+</p>
+            <p>Volunteers</p>
+          </div>
+
+          <div className="flex flex-col items-center">
+            <p className="text-4xl font-bold">65+</p>
+            <p>Cities & Villages</p>
+          </div>
+
+          <div className="flex flex-col items-center">
+            <p className="text-4xl font-bold">80%</p>
+            <p>Contribution</p>
+          </div>
+        </div>  
       </div>
     </div>
   )
