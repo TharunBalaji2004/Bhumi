@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -8,9 +8,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import Navbar from "./Navbar";
 import Cookies from "js-cookie";
+import decodedToken from "@/AuthChecker";
 
 const Volunteer = () => {
+  const [userId, setUserId] = useState("");
   const [formData, setFormData] = useState({
+    user_id: userId,
     fullname: "",
     email: "",
     mobile_number: "",
@@ -55,7 +58,7 @@ const Volunteer = () => {
       return;
     }
 
-    const accessToken = Cookies.get('access-token');
+    const accessToken = Cookies.get("access-token");
 
     if (!accessToken) {
       toast({
@@ -66,9 +69,8 @@ const Volunteer = () => {
       return;
     }
 
+    setUserId(decodedToken.id);
     try {
-      console.log("Form data:", formData);
-
       const response = await fetch("http://localhost:3000/api/volunteer", {
         method: "POST",
         headers: {
@@ -77,7 +79,10 @@ const Volunteer = () => {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
+      const responseBody = await response.json();
+      console.log("RESPONSE: ", responseBody);
+
+      if (response.success) {
         toast({
           title: "Volunteer form submitted successfully",
           description: "🎉 Welcome to Bhumi",
@@ -90,8 +95,8 @@ const Volunteer = () => {
         });
       } else {
         toast({
-          title: "Error",
-          description: "There was a problem submitting your form.",
+          variant: "destructive",
+          title: "You have already registered as volunteer",
         });
       }
     } catch (error) {
@@ -185,7 +190,6 @@ const Volunteer = () => {
             >
               Submit
             </Button>
-           
           </div>
         </div>
         <div className="flex flex-col items-center">

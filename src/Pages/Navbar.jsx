@@ -4,13 +4,10 @@ import { Button } from "@/components/ui/button";
 import decodedToken from "@/AuthChecker";
 import Cookies from "js-cookie";
 import { useToast } from "@/components/ui/use-toast";
-import { Toaster } from "@/components/ui/toaster";
-
 
 
 const Navbar = () => {
   const { toast } = useToast();
-  console.log("DECODED TOKEN:", decodedToken);
 
   const signOutHandler = () => {
     if (decodedToken) {

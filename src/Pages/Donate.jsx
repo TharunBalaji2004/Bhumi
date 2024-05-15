@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
@@ -14,6 +14,17 @@ import { Button } from "@/components/ui/button";
 import Navbar from "./Navbar";
 
 const Donate = () => {
+  const [educationAmount, setEducationAmount] = useState(0);
+  const [generalFundAmount, setGeneralFundAmount] = useState(0);
+  const [corpusFundAmount, setCorpusFundAmount] = useState(0);
+
+  const handleIncrement = (setter, increment) => () =>
+    setter((prev) => prev + increment);
+  const handleDecrement = (setter, decrement) => () =>
+    setter((prev) => Math.max(0, prev - decrement));
+
+  const totalAmount = educationAmount + generalFundAmount + corpusFundAmount;
+
   return (
     <>
       <Navbar />
@@ -22,7 +33,7 @@ const Donate = () => {
           <h1 className="text-3xl font-bold">Donate Now For the Cause</h1>
           <p className="text-lg">
             Make a purposeful one time donation or a sustainable recurring
-            donation{" "}
+            donation
           </p>
         </div>
 
@@ -36,11 +47,19 @@ const Donate = () => {
           </TabsList>
           <TabsContent value="account">
             <Table>
-              <TableCaption>Tax benefit: 50% applied</TableCaption>
+              <TableCaption>
+                <div className="flex justify-center items-center gap-10">
+                  <p> Tax benefit: 50% applied</p>
+                  <Button variant="default" className="max-w-sm">
+                    Donate
+                  </Button>
+                </div>
+              </TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[400px]">Scheme</TableHead>
                   <TableHead>Description</TableHead>
+                  <TableHead>Unit</TableHead>
                   <TableHead className="w-[200px] text-center">
                     Amount
                   </TableHead>
@@ -49,22 +68,29 @@ const Donate = () => {
               <TableBody>
                 <TableRow>
                   <TableCell className="font-medium">
-                    Sponsor education for an under-priviledged child
+                    Sponsor education for an under-privileged child
                   </TableCell>
                   <TableCell>Education</TableCell>
+                  <TableCell className="font-bold">₹100</TableCell>
                   <TableCell className="text-right">
                     <div className="flex flex-row">
-                      <Button className="rounded-r-none">
+                      <Button
+                        className="rounded-r-none"
+                        onClick={handleIncrement(setEducationAmount, 100)}
+                      >
                         <p>+</p>
                       </Button>
                       <Input
                         type="text"
-                        id="text"
                         placeholder=""
-                        value="0"
+                        value={educationAmount}
                         className="rounded-none"
+                        readOnly
                       />
-                      <Button className="rounded-l-none">
+                      <Button
+                        className="rounded-l-none"
+                        onClick={handleDecrement(setEducationAmount, 100)}
+                      >
                         <p>-</p>
                       </Button>
                     </div>
@@ -72,20 +98,27 @@ const Donate = () => {
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-medium">General Fund</TableCell>
-                  <TableCell>Food/Clothes/Accomodation</TableCell>
+                  <TableCell>Food/Clothes/Accommodation</TableCell>
+                  <TableCell className="font-bold">₹200</TableCell>
                   <TableCell className="text-right">
                     <div className="flex flex-row">
-                      <Button className="rounded-r-none">
+                      <Button
+                        className="rounded-r-none"
+                        onClick={handleIncrement(setGeneralFundAmount, 200)}
+                      >
                         <p>+</p>
                       </Button>
                       <Input
                         type="text"
-                        id="text"
                         placeholder=""
-                        value="0"
+                        value={generalFundAmount}
                         className="rounded-none"
+                        readOnly
                       />
-                      <Button className="rounded-l-none">
+                      <Button
+                        className="rounded-l-none"
+                        onClick={handleDecrement(setGeneralFundAmount, 200)}
+                      >
                         <p>-</p>
                       </Button>
                     </div>
@@ -94,19 +127,26 @@ const Donate = () => {
                 <TableRow>
                   <TableCell className="font-medium">Corpus Fund</TableCell>
                   <TableCell>Bulk</TableCell>
+                  <TableCell className="font-bold">₹300</TableCell>
                   <TableCell className="text-right">
                     <div className="flex flex-row">
-                      <Button className="rounded-r-none">
+                      <Button
+                        className="rounded-r-none"
+                        onClick={handleIncrement(setCorpusFundAmount, 300)}
+                      >
                         <p>+</p>
                       </Button>
                       <Input
                         type="text"
-                        id="text"
                         placeholder=""
-                        value="0"
+                        value={corpusFundAmount}
                         className="rounded-none"
+                        readOnly
                       />
-                      <Button className="rounded-l-none">
+                      <Button
+                        className="rounded-l-none"
+                        onClick={handleDecrement(setCorpusFundAmount, 300)}
+                      >
                         <p>-</p>
                       </Button>
                     </div>
@@ -114,16 +154,16 @@ const Donate = () => {
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-medium"></TableCell>
+                  <TableCell className="font-bold"></TableCell>
                   <TableCell className="font-bold">TOTAL</TableCell>
                   <TableCell className="text-right">
                     <div className="flex flex-row">
                       <Input
                         type="text"
-                        id="text"
                         placeholder=""
-                        value="0"
+                        value={"₹" + totalAmount}
                         className="rounded-none"
-                        disabled
+                        readOnly
                       />
                     </div>
                   </TableCell>
@@ -138,6 +178,7 @@ const Donate = () => {
                 <TableRow>
                   <TableHead className="w-[400px]">Scheme</TableHead>
                   <TableHead>Description</TableHead>
+                  <TableHead>Unit</TableHead>
                   <TableHead className="w-[200px] text-center">
                     Amount
                   </TableHead>
@@ -146,22 +187,29 @@ const Donate = () => {
               <TableBody>
                 <TableRow>
                   <TableCell className="font-medium">
-                    Sponsor education for an under-priviledged child
+                    Sponsor education for an under-privileged child
                   </TableCell>
                   <TableCell>Education</TableCell>
+                  <TableCell className="font-bold">₹100</TableCell>
                   <TableCell className="text-right">
                     <div className="flex flex-row">
-                      <Button className="rounded-r-none">
+                      <Button
+                        className="rounded-r-none"
+                        onClick={handleIncrement(setEducationAmount, 100)}
+                      >
                         <p>+</p>
                       </Button>
                       <Input
                         type="text"
-                        id="text"
                         placeholder=""
-                        value="0"
+                        value={educationAmount}
                         className="rounded-none"
+                        readOnly
                       />
-                      <Button className="rounded-l-none">
+                      <Button
+                        className="rounded-l-none"
+                        onClick={handleDecrement(setEducationAmount, 100)}
+                      >
                         <p>-</p>
                       </Button>
                     </div>
@@ -169,20 +217,27 @@ const Donate = () => {
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-medium">General Fund</TableCell>
-                  <TableCell>Food/Clothes/Accomodation</TableCell>
+                  <TableCell>Food/Clothes/Accommodation</TableCell>
+                  <TableCell className="font-bold">₹200</TableCell>
                   <TableCell className="text-right">
                     <div className="flex flex-row">
-                      <Button className="rounded-r-none">
+                      <Button
+                        className="rounded-r-none"
+                        onClick={handleIncrement(setGeneralFundAmount, 200)}
+                      >
                         <p>+</p>
                       </Button>
                       <Input
                         type="text"
-                        id="text"
                         placeholder=""
-                        value="0"
+                        value={generalFundAmount}
                         className="rounded-none"
+                        readOnly
                       />
-                      <Button className="rounded-l-none">
+                      <Button
+                        className="rounded-l-none"
+                        onClick={handleDecrement(setGeneralFundAmount, 200)}
+                      >
                         <p>-</p>
                       </Button>
                     </div>
@@ -191,19 +246,26 @@ const Donate = () => {
                 <TableRow>
                   <TableCell className="font-medium">Corpus Fund</TableCell>
                   <TableCell>Bulk</TableCell>
+                  <TableCell className="font-bold">₹300</TableCell>
                   <TableCell className="text-right">
                     <div className="flex flex-row">
-                      <Button className="rounded-r-none">
+                      <Button
+                        className="rounded-r-none"
+                        onClick={handleIncrement(setCorpusFundAmount, 300)}
+                      >
                         <p>+</p>
                       </Button>
                       <Input
                         type="text"
-                        id="text"
                         placeholder=""
-                        value="0"
+                        value={corpusFundAmount}
                         className="rounded-none"
+                        readOnly
                       />
-                      <Button className="rounded-l-none">
+                      <Button
+                        className="rounded-l-none"
+                        onClick={handleDecrement(setCorpusFundAmount, 300)}
+                      >
                         <p>-</p>
                       </Button>
                     </div>
@@ -211,16 +273,16 @@ const Donate = () => {
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-medium"></TableCell>
+                  <TableCell className="font-bold"></TableCell>
                   <TableCell className="font-bold">TOTAL</TableCell>
                   <TableCell className="text-right">
                     <div className="flex flex-row">
                       <Input
                         type="text"
-                        id="text"
                         placeholder=""
-                        value="0"
+                        value={"₹" + totalAmount}
                         className="rounded-none"
-                        disabled
+                        readOnly
                       />
                     </div>
                   </TableCell>
