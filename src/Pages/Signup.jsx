@@ -1,11 +1,4 @@
 import React from "react";
-import {
-    Card,
-    CardDescription,
-    CardContent,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -28,7 +21,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { useNavigate } from "react-router-dom";
 
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = "http://localhost:3000";
 
 const formSchema = z.object({
     name: z.string().min(5),
@@ -65,7 +58,7 @@ const Signup = () => {
                 password: values.password
             };
             const response = await axios.post(
-                `${API_URL}/api/signup`,
+                `${API_URL}/api/auth/signup`,
                 userData,
                 { withCredentials: true }
             );
@@ -79,7 +72,7 @@ const Signup = () => {
                 console.log("Form submitted: ", values);
                 form.reset();
 
-                navigate("/home");
+                navigate("/");
             }
         } catch (error) {
             console.error("Form submission error: ", error);

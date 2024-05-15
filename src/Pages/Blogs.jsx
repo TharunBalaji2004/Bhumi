@@ -19,35 +19,39 @@ import {
 } from "@/components/ui/sheet";
 import { FaUser } from "react-icons/fa";
 import BlogCardImage from "../assets/blogcard_image.jpg";
+import Navbar from "./Navbar";
 
 const Blogs = () => {
   return (
-    <div className="block pt-10">
-      <h1 className="text-2xl font-bold text-center">Our Written Blogs</h1>
+    <>
+      <Navbar />
+      <div className="block pt-10">
+        <h1 className="text-2xl font-bold text-center">Our Written Blogs</h1>
 
-      <div className="flex justify-center items-end pt-10 gap-5">
-        <div className="grid w-full max-w-sm items-center gap-2">
-          <Label htmlFor="text">Search by Title</Label>
-          <Input type="text" id="text" placeholder="Blog Name" />
+        <div className="flex justify-center items-end pt-10 gap-5">
+          <div className="grid w-full max-w-sm items-center gap-2">
+            <Label htmlFor="text">Search by Title</Label>
+            <Input type="text" id="text" placeholder="Blog Name" />
+          </div>
+
+          <div className="grid w-full max-w-sm items-center gap-2">
+            <Label htmlFor="email">Select Campaign</Label>
+            <Input type="text" id="email" placeholder="Blog Name" />
+          </div>
+
+          <Button variant="default">Search</Button>
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-2">
-          <Label htmlFor="email">Select Campaign</Label>
-          <Input type="text" id="email" placeholder="Blog Name" />
+        <div className="grid grid-cols-3 px-20 py-10 gap-y-10">
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
         </div>
-
-        <Button variant="default">Search</Button>
       </div>
-
-      <div className="grid grid-cols-3 px-20 py-10 gap-y-10">
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
-      </div>
-    </div>
+    </>
   );
 };
 

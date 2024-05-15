@@ -10,10 +10,13 @@ import Volunteer from "./Pages/Volunteer";
 import Donate from "./Pages/Donate";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
+import Navbar from "./Pages/Navbar";
 
 function App() {
   return (
-    <Router>
+    <>
+      
+      <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/aboutus" element={<AboutUs />} />
@@ -27,6 +30,8 @@ function App() {
         <Route path="*" element={<Error404 />} />
       </Routes>
     </Router>
+    </>
+    
   );
 }
 

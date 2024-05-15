@@ -27,7 +27,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = "http://localhost:3000";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -62,7 +62,7 @@ const Login = () => {
                 password: values.password
             };
             const response = await axios.post(
-                `${API_URL}/api/login`,
+                `${API_URL}/api/auth/login`,
                 userData,
                 { withCredentials: true }
             );
@@ -76,7 +76,7 @@ const Login = () => {
                 console.log("Form submitted: ", values);
                 form.reset();
 
-                navigate("/home");
+                navigate("/");
             }
         } catch (error) {
             console.error("Form submission error: ", error);
