@@ -21,7 +21,7 @@ const Campcard = () => {
             <p className="text-xs">THARUN</p>
           </div>
           <div className="mx-20 my-5">
-            <button className="px-6 py-3 rounded-md border-gray-300 border-2 hover:bg-orange-300">
+            <button className="px-6 py-3 rounded-md border-gray-300 border-2 text-white  bg-red">
               Request to Join
             </button>
           </div>
