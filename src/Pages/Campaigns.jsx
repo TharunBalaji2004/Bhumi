@@ -5,8 +5,8 @@ import Contact from "@/components/ui/contact";
 const Campaigns = () => {
   return (
     <>
-      <div className="flex flex-col justify-center bg-yellow-100">
-        <p className="flex justify-center pt-[30px] pb-[50px] text-4xl">
+      <div className="flex flex-col justify-center bg-gray">
+        <p className="flex justify-center pt-[30px] pb-[50px] text-4xl text-red">
           Our Campaigns
         </p>
         <div className="flex flex-row justify-around">
