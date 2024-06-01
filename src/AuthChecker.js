@@ -1,11 +1,10 @@
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
-const accessToken = Cookies.get('access-token');
-let decodedToken = null;
+const getToken = async (setCook) => {
+  const accessToken = Cookies.get("access-token");
+  const decodedToken = await jwtDecode(accessToken);
+  setCook(decodedToken);
+};
 
-if (accessToken) {
-    decodedToken = jwtDecode(accessToken);
-}
-
-export default decodedToken;
+export default getToken;

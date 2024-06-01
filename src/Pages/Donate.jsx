@@ -12,11 +12,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Navbar from "./Navbar";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import { Minus, Plus } from "lucide-react";
 
 const Donate = () => {
+  const [userId, setUserId] = useState("");
   const [educationAmount, setEducationAmount] = useState(0);
   const [generalFundAmount, setGeneralFundAmount] = useState(0);
   const [corpusFundAmount, setCorpusFundAmount] = useState(0);
+  const { toast } = useToast();
 
   const handleIncrement = (setter, increment) => () =>
     setter((prev) => prev + increment);
@@ -25,9 +32,72 @@ const Donate = () => {
 
   const totalAmount = educationAmount + generalFundAmount + corpusFundAmount;
 
+  const handleSubmit = async () => {
+    if (totalAmount <= 0) {
+      toast({
+        variant: "destructive",
+        title: "Donation amount cannot be zero",
+      });
+      return;
+    }
+
+    const accessToken = Cookies.get("access-token");
+
+    if (!accessToken) {
+      toast({
+        variant: "destructive",
+        title: "User does not have an account",
+        description: "Kindly register or login to submit the form",
+      });
+      return;
+    }
+
+    const decodedToken = await jwtDecode(accessToken);
+    setUserId(decodedToken.id);
+    console.log(decodedToken);
+
+    try {
+      const formData = {
+        user_id: decodedToken,
+        amount: totalAmount,
+        types: [],
+      };
+
+      formData.user_id = userId;
+      const response = await fetch("http://localhost:3000/api/donate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const responseBody = await response.json();
+      console.log("RESPONSE: ", responseBody);
+
+      if (responseBody.success) {
+        toast({
+          title: "Donated successfully",
+          description: "😊 Thanks for contributing",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error occurred",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was a problem submitting your form.",
+      });
+    }
+  };
+
   return (
     <>
       <Navbar />
+      <Toaster />
       <div className="flex flex-col items-center pt-10">
         <div className="flex flex-col items-center gap-3">
           <h1 className="text-3xl font-bold">Donate Now For the Cause</h1>
@@ -50,7 +120,11 @@ const Donate = () => {
               <TableCaption>
                 <div className="flex justify-center items-center gap-10">
                   <p> Tax benefit: 50% applied</p>
-                  <Button variant="default" className="max-w-sm">
+                  <Button
+                    variant="default"
+                    className="max-w-sm"
+                    onClick={handleSubmit}
+                  >
                     Donate
                   </Button>
                 </div>
@@ -78,20 +152,20 @@ const Donate = () => {
                         className="rounded-r-none"
                         onClick={handleIncrement(setEducationAmount, 100)}
                       >
-                        <p>+</p>
+                        <Plus className="h-4 w-4" />
                       </Button>
                       <Input
                         type="text"
                         placeholder=""
                         value={educationAmount}
-                        className="rounded-none"
+                        className="rounded-none text-center"
                         readOnly
                       />
                       <Button
                         className="rounded-l-none"
                         onClick={handleDecrement(setEducationAmount, 100)}
                       >
-                        <p>-</p>
+                        <Minus className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
@@ -106,20 +180,20 @@ const Donate = () => {
                         className="rounded-r-none"
                         onClick={handleIncrement(setGeneralFundAmount, 200)}
                       >
-                        <p>+</p>
+                        <Plus className="h-4 w-4" />
                       </Button>
                       <Input
                         type="text"
                         placeholder=""
                         value={generalFundAmount}
-                        className="rounded-none"
+                        className="rounded-none text-center"
                         readOnly
                       />
                       <Button
                         className="rounded-l-none"
                         onClick={handleDecrement(setGeneralFundAmount, 200)}
                       >
-                        <p>-</p>
+                        <Minus className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
@@ -134,20 +208,20 @@ const Donate = () => {
                         className="rounded-r-none"
                         onClick={handleIncrement(setCorpusFundAmount, 300)}
                       >
-                        <p>+</p>
+                        <Plus className="h-4 w-4" />
                       </Button>
                       <Input
                         type="text"
                         placeholder=""
                         value={corpusFundAmount}
-                        className="rounded-none"
+                        className="rounded-none text-center"
                         readOnly
                       />
                       <Button
                         className="rounded-l-none"
                         onClick={handleDecrement(setCorpusFundAmount, 300)}
                       >
-                        <p>-</p>
+                        <Minus className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
@@ -173,7 +247,18 @@ const Donate = () => {
           </TabsContent>
           <TabsContent value="monthly">
             <Table>
-              <TableCaption>Tax benefit: 50% applied</TableCaption>
+              <TableCaption>
+                <div className="flex justify-center items-center gap-10">
+                  <p> Tax benefit: 50% applied</p>
+                  <Button
+                    variant="default"
+                    className="max-w-sm"
+                    onClick={handleSubmit}
+                  >
+                    Donate
+                  </Button>
+                </div>
+              </TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[400px]">Scheme</TableHead>
@@ -197,7 +282,7 @@ const Donate = () => {
                         className="rounded-r-none"
                         onClick={handleIncrement(setEducationAmount, 100)}
                       >
-                        <p>+</p>
+                        <Plus className="h-4 w-4" />
                       </Button>
                       <Input
                         type="text"
@@ -210,7 +295,7 @@ const Donate = () => {
                         className="rounded-l-none"
                         onClick={handleDecrement(setEducationAmount, 100)}
                       >
-                        <p>-</p>
+                        <Minus className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
@@ -225,7 +310,7 @@ const Donate = () => {
                         className="rounded-r-none"
                         onClick={handleIncrement(setGeneralFundAmount, 200)}
                       >
-                        <p>+</p>
+                        <Plus className="h-4 w-4" />
                       </Button>
                       <Input
                         type="text"
@@ -238,7 +323,7 @@ const Donate = () => {
                         className="rounded-l-none"
                         onClick={handleDecrement(setGeneralFundAmount, 200)}
                       >
-                        <p>-</p>
+                        <Minus className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
@@ -253,7 +338,7 @@ const Donate = () => {
                         className="rounded-r-none"
                         onClick={handleIncrement(setCorpusFundAmount, 300)}
                       >
-                        <p>+</p>
+                        <Plus className="h-4 w-4" />
                       </Button>
                       <Input
                         type="text"
@@ -266,7 +351,7 @@ const Donate = () => {
                         className="rounded-l-none"
                         onClick={handleDecrement(setCorpusFundAmount, 300)}
                       >
-                        <p>-</p>
+                        <Minus className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
@@ -281,7 +366,7 @@ const Donate = () => {
                         type="text"
                         placeholder=""
                         value={"₹" + totalAmount}
-                        className="rounded-none"
+                        className=""
                         readOnly
                       />
                     </div>

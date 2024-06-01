@@ -28,7 +28,7 @@ const Blogs = () => {
       <div className="block pt-10">
         <h1 className="text-2xl font-bold text-center">Our Written Blogs</h1>
 
-        <div className="flex justify-center items-end pt-10 gap-5">
+        <div className="flex flex-col md:flex-row justify-center md:items-end pt-10 gap-5 mx-4 md:mx-20 px-4">
           <div className="grid w-full max-w-sm items-center gap-2">
             <Label htmlFor="text">Search by Title</Label>
             <Input type="text" id="text" placeholder="Blog Name" />
@@ -42,7 +42,7 @@ const Blogs = () => {
           <Button variant="default">Search</Button>
         </div>
 
-        <div className="grid grid-cols-3 px-20 py-10 gap-y-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 mx-8 md:mx-20 py-10 gap-4">
           <BlogCard />
           <BlogCard />
           <BlogCard />
@@ -58,11 +58,11 @@ const Blogs = () => {
 const BlogCard = () => {
   return (
     <>
-      <Card className="w-[350px] justify-self-center">
+      <Card className="w-full justify-self-center">
         <CardHeader>
           <img src={BlogCardImage} className="rounded-lg" />
           <CardTitle className="py-2">Blog Title</CardTitle>
-          <CardDescription className="text-justify">
+          <CardDescription className="text-justify text-ellipsis line-clamp-4">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna
             dolor, convallis et auctor nec, condimentum finibus nisl. Curabitur
             at finibus purus, tristique hendrerit urna. Morbi egestas tempus
@@ -73,16 +73,16 @@ const BlogCard = () => {
             vestibulum dignissim.
           </CardDescription>
         </CardHeader>
-        <CardFooter className="flex justify-between">
-          <Button variant="outline">
+        <CardFooter className="flex justify-between flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 space-x-0">
+          <Button variant="outline" className="w-full md:w-fit">
             <FaUser />
             <p className="pl-2">Tharun Balaji</p>
           </Button>
           <Sheet>
             <SheetTrigger asChild>
-              <Button>Read More</Button>
+              <Button className="w-full md:w-fit">Read More</Button>
             </SheetTrigger>
-            <SheetContent className="px-10 sm:max-w-[550px]">
+              <SheetContent className="px-10 sm:max-w-[550px]">
               <SheetHeader>
                 <img src={BlogCardImage} className="rounded-lg" />
                 <div className="flex items-center justify-between py-2">

@@ -8,7 +8,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import Navbar from "./Navbar";
 import Cookies from "js-cookie";
-import decodedToken from "@/AuthChecker";
+import { jwtDecode } from "jwt-decode";
+import getToken from "@/AuthChecker";
 
 const Volunteer = () => {
   const [userId, setUserId] = useState("");
@@ -51,6 +52,10 @@ const Volunteer = () => {
     return newErrors;
   };
 
+  useEffect(() => {
+    getToken(setUserId);
+  }, []);
+
   const handleSubmit = async () => {
     const newErrors = await validate();
     if (Object.keys(newErrors).length > 0) {
@@ -58,19 +63,25 @@ const Volunteer = () => {
       return;
     }
 
-    const accessToken = Cookies.get("access-token");
+    // const accessToken = Cookies.get("access-token");
 
-    if (!accessToken) {
-      toast({
-        variant: "destructive",
-        title: "User does not have an account",
-        description: "Kindly register or login to submit the form",
-      });
-      return;
-    }
+    // if (!accessToken) {
+    //   toast({
+    //     variant: "destructive",
+    //     title: "User does not have an account",
+    //     description: "Kindly register or login to submit the form",
+    //   });
+    //   return;
+    // }
 
-    setUserId(decodedToken.id);
+    // const decodedToken = await jwtDecode(accessToken ?? "");
+    // setUserId(decodedToken.id);
+    // console.log(decodedToken);
+
+    console.log(userId);
+    console.log("FormData", formData);
     try {
+      formData.user_id = userId.id;
       const response = await fetch("http://localhost:3000/api/volunteer", {
         method: "POST",
         headers: {
@@ -82,7 +93,7 @@ const Volunteer = () => {
       const responseBody = await response.json();
       console.log("RESPONSE: ", responseBody);
 
-      if (response.success) {
+      if (responseBody.success) {
         toast({
           title: "Volunteer form submitted successfully",
           description: "🎉 Welcome to Bhumi",
@@ -110,13 +121,13 @@ const Volunteer = () => {
   return (
     <>
       <Navbar />
-      <div className="grid grid-cols-2 items-center justify-center h-screen">
+      <div className=" flex flex-col-reverse md:flex-row gap-8 space-y-8 md:space-y-0 md:space-x-4 space-x-0 items-center justify-center p-4 md:p-16">
         <div className="flex flex-col items-center">
           <h1 className="text-2xl font-bold text-center pb-5">
             Volunteer Registration
           </h1>
 
-          <div className="flex flex-col max-w-md gap-2">
+          <div className="flex flex-col max-w-md gap-4">
             <div className="grid w-full max-w-sm items-center gap-2">
               <Label htmlFor="fullname">Full Name</Label>
               <Input
@@ -126,9 +137,7 @@ const Volunteer = () => {
                 onChange={handleChange}
                 placeholder="Enter your full name"
               />
-              {errors.fullname && (
-                <p className="text-red-500">{errors.fullname}</p>
-              )}
+              {errors.fullname && <p className="text-red">{errors.fullname}</p>}
             </div>
 
             <div className="grid w-full max-w-sm items-center gap-2">
@@ -140,7 +149,7 @@ const Volunteer = () => {
                 onChange={handleChange}
                 placeholder="Enter your email"
               />
-              {errors.email && <p className="text-red-500">{errors.email}</p>}
+              {errors.email && <p className="text-red">{errors.email}</p>}
             </div>
 
             <div className="grid w-full max-w-sm items-center gap-2">
@@ -153,7 +162,7 @@ const Volunteer = () => {
                 placeholder="Enter your mobile number"
               />
               {errors.mobile_number && (
-                <p className="text-red-500">{errors.mobile_number}</p>
+                <p className="text-red">{errors.mobile_number}</p>
               )}
             </div>
 
@@ -166,9 +175,7 @@ const Volunteer = () => {
                 onChange={handleChange}
                 placeholder="Enter your preferred location"
               />
-              {errors.location && (
-                <p className="text-red-500">{errors.location}</p>
-              )}
+              {errors.location && <p className="text-red">{errors.location}</p>}
             </div>
 
             <div className="flex justify-start items-center">
@@ -193,21 +200,24 @@ const Volunteer = () => {
           </div>
         </div>
         <div className="flex flex-col items-center">
-          <img src={VolunteerImage} className="w-[500px] rounded-lg" />
+          <img
+            src={VolunteerImage}
+            className="w-[300px] md:w-[500px]  rounded-lg"
+          />
 
-          <div className="flex gap-10 pt-10">
+          <div className="flex gap-10 md:pt-10 pt-4">
             <div className="flex flex-col items-center">
-              <p className="text-4xl font-bold">2000+</p>
+              <p className="text-2xl md:text-4xl font-bold">2000+</p>
               <p>Volunteers</p>
             </div>
 
             <div className="flex flex-col items-center">
-              <p className="text-4xl font-bold">65+</p>
+              <p className="text-2xl md:text-4xl font-bold">65+</p>
               <p>Cities & Villages</p>
             </div>
 
             <div className="flex flex-col items-center">
-              <p className="text-4xl font-bold">80%</p>
+              <p className="text-2xl md:text-4xl font-bold">80%</p>
               <p>Contribution</p>
             </div>
           </div>

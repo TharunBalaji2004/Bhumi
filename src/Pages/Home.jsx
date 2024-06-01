@@ -4,8 +4,8 @@ import BannerImage from "../assets/banner2.png";
 import Food from "../assets/food.jpeg";
 import Hospitality from "../assets/hospitality.jpeg";
 import Education from "../assets/education.jpg";
-import Homepng from "../assets/home.png"
-import Impact from "../assets/impact.png"
+import Homepng from "../assets/home.png";
+import Impact from "../assets/impact.png";
 import Footer from "./Footer";
 
 const Home = () => {
@@ -78,7 +78,7 @@ const Home = () => {
           <img src={Impact} className="h-80 w-80"></img>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
